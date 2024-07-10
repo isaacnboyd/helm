@@ -312,6 +312,20 @@ func validateMatchSelector(yamlStruct *K8sYamlStruct, manifest string) error {
 	}
 	return nil
 }
+
+// validateTemplateSubdomain ensures that template specs follow
+// IsDNS1123Subdomain for container names.
+func validateTemplateSubdomain(yamlStruct *K8sYamlStruct, manifest string) error {
+	fmt.Print("HELLO")
+	fmt.Print(manifest)
+	// Check :166
+	// The linter receives a string "rendered content"
+	// I need to retrieve spec.template.spec.containers[*].name (maybe I convert the string to yaml?)
+	// Then I need to make sure it is valid Metadata using validateMetadataName
+	// For a few different cases (like :306-307)
+	return nil
+}
+
 func validateListAnnotations(yamlStruct *K8sYamlStruct, manifest string) error {
 	if yamlStruct.Kind == "List" {
 		m := struct {

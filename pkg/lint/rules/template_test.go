@@ -201,6 +201,40 @@ func TestValidateMetadataName(t *testing.T) {
 	}
 }
 
+func TestValidateTemplateSubdomain(t *testing.T) {
+	md := &K8sYamlStruct{
+		APIVersion: "apps/v1",
+		Kind:       "Deployment",
+		Metadata: k8sYamlMetadata{
+			Name: "mydeployment",
+		},
+	}
+	manifest := `
+	apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: FOO 
+        image: nginx:1.14.2
+	`
+	if err := validateTemplateSubdomain(md, manifest); err != nil {
+		t.Error(err)
+	}
+}
+
 func TestDeprecatedAPIFails(t *testing.T) {
 	mychart := chart.Chart{
 		Metadata: &chart.Metadata{

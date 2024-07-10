@@ -1,0 +1,5 @@
+Linter should fail on objects with spec.template.containers[].name
+Jobs and Deployments/Deploymentconfigs both have this, and currently
+the linter only picks up metadata.name
+
+First need to write a test
